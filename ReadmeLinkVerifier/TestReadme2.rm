@@ -1,0 +1,12 @@
+This Readme file is used for integration tests.
+
+# Links Into Repository:
+
+- [Good](Facade.cs)
+- [Good](/Facade.cs)
+- [Good](/LinkRules/RepositoryLinkRule.cs)
+- [Good](../ReadmeLinkVerifier.UnitTests/FacadeTests.cs)
+- [Bad](facade.cs)
+- [Bad](NonExistentFile.cs)
+- [Bad](testreadme2.rm)
+

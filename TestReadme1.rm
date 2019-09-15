@@ -1,0 +1,43 @@
+This Readme file is used for integration tests.
+
+# Links Into Repository:
+
+- [Good](ReadmeLinkVerifier/Facade.cs) more text
+- [Good](/ReadmeLinkVerifier/Facade.cs)
+- [Good](/ReadmeLinkVerifier/LinkRules/RepositoryLinkRule.cs)
+- [Good](/ReadmeLinkVerifier/LinkRules)
+- [Bad](readmelinkverifier/facade.cs)
+- [Bad](/ReadmeLinkVerifier/NonExistentFile.cs)
+- [Bad](/ReadmeLinkVerifier /NonExistentFile.cs)
+- [Bad](testreadme1.rm)
+
+# Internet Links:
+
+- [Good](https://www.google.com/) more text
+- [Good](https://github.com/ZviRosenfeld/MinMaxSearch/blob/master/README.md)
+- [Bad](https://github.com/ZviRosenfeld/MinMaxSearch23)
+- [Bad](https://github.com/ZviRosenfeld/MinMaxSearch/blob/master/README.md3)
+- [Bad](https://github.com/ZviRosenfeld /MinMaxSearch23)
+
+# Readme Links
+
+- [Good](#bassicheader) more text
+- [Good](#bassicheader2)
+- [Good](#bassicheader3)
+- [Good](#two-words2)
+- [Good](#two-words2)
+- [Good](#real1)
+- [Bad](#BassicHeader)
+- [Bad](#two)
+- [Bad](#fake1)
+- [Bad](#fake2)
+
+# Test Readme Headers
+# BassicHeader
+## BassicHeader2
+### BassicHeader3
+# Two Words1
+# Two-Words2
+f # Fake1
+	 # Fake2
+ #    Real1   
