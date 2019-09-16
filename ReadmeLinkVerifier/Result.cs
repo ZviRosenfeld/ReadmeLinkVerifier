@@ -4,15 +4,15 @@ namespace ReadmeLinkVerifier
 {
     public class Result
     {
-        public Result(ICollection<LinkDto> goodLinks, ICollection<LinkDto> badLinks, ICollection<LinkDto> unknownLinks)
+        public Result(IEnumerable<LinkDto> goodLinks, IEnumerable<LinkDto> badLinks, IEnumerable<LinkDto> unknownLinks)
         {
             GoodLinks = goodLinks;
             BadLinks = badLinks;
             UnknownLinks = unknownLinks;
         }
 
-        public ICollection<LinkDto> GoodLinks { get; }
-        public ICollection<LinkDto> BadLinks { get; }
-        public ICollection<LinkDto> UnknownLinks { get; }
+        public IEnumerable<LinkDto> GoodLinks { get; }
+        public IEnumerable<LinkDto> BadLinks { get; }
+        public IEnumerable<LinkDto> UnknownLinks { get; }
     }
 }

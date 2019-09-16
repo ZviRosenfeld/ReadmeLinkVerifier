@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ReadmeLinkVerifier.Interfaces;
 
 namespace ReadmeLinkVerifier
@@ -26,10 +28,10 @@ namespace ReadmeLinkVerifier
 
         private Result ValidateLinks(List<LinkDto> allLinks)
         {
-            var unknownLinks = new List<LinkDto>();
-            var goodLinks = new List<LinkDto>();
-            var badLinks = new List<LinkDto>();
-            foreach (var link in allLinks)
+            var unknownLinks = new ConcurrentBag<LinkDto>();
+            var goodLinks = new ConcurrentBag<LinkDto>();
+            var badLinks = new ConcurrentBag<LinkDto>();
+            Parallel.ForEach(allLinks, link =>
             {
                 var resolvedLink = false;
                 foreach (var validationRule in validationRules)
@@ -54,7 +56,7 @@ namespace ReadmeLinkVerifier
 
                 if (!resolvedLink)
                     unknownLinks.Add(link);
-            }
+            });
             
             return new Result(goodLinks, badLinks, unknownLinks);
         }
