@@ -22,9 +22,8 @@ namespace ReadmeLinkVerifier
 
         private string LinesToString()
         {
-            var lines = Lines.Aggregate(string.Empty, (current, line) => current + ("," + line));
-
-            return lines.Substring(1);
+            var lines = Lines.Aggregate(string.Empty, (current, line) => current + ", " + line);
+            return lines.Substring(2);
         }
 
         public override bool Equals(object obj) => 

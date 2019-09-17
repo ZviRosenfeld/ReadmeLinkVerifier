@@ -6,7 +6,7 @@ A tool to verify that the links used in your readme file are active
 
 The tool is written in dotnet core, so you'll need to verify that you have dotnet core (v-2.2) installed on you machine.
 
-To run, you can type the following command (if you want to verify the readme at the repository root named README.md):
+To run, use the following command (if you want to verify the readme at the repository root named README.md):
 
 ```
 dornet  ReadmeLinkVerifierConsoleApp.dll <RepositoryPath>
