@@ -6,7 +6,10 @@ namespace ReadmeLinkVerifier
 {
     public class LinkDetector : ILinkDetector
     {
-        private const string LinkRegexPattern = @"\[(?<text>.+?)\]\(\s*(?<link>.+?)\s*\)";
+        private const string textRegex = @"\[(?<text>.+?)\]";
+        private const string balancedParenthesesRegex = @"(((?<open>\()[^\(\)]*)+((?<-open>\))[^\)\(]*)+)*"; // A regex that will accept strings with banaced parentheses
+        private const string linkRegex = @"\(\s*(?<link>[^\(\)]*?" + balancedParenthesesRegex + @")\s*\)";
+        private const string LinkRegexPattern = textRegex + linkRegex;
 
         public ICollection<LinkDto> DetectLinks(string[] text)
         {

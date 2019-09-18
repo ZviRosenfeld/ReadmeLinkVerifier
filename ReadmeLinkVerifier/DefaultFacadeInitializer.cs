@@ -17,7 +17,6 @@ namespace ReadmeLinkVerifier
             var readmeFile = new ReadmeFile(readmeFilePath, readmeRelativePath);
             var rules = new List<ILinkRule>
             {
-                new IgnoreLinksWithBracketsRule(),
                 new RepositoryLinkRule(repository, readmeFile),
                 new ReadmeFileLinkRules(readmeFile)
             };
