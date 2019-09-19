@@ -4,15 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using ReadmeLinkVerifier.Interfaces;
 
-namespace ReadmeLinkVerifier
+namespace ReadmeLinkVerifier.Services
 {
-    public class Facade
+    public class LinkVerifierService : IVerifyLinksService
     {
         private readonly ILinkDetector linkDetector;
         private readonly IEnumerable<ILinkRule> validationRules;
         private readonly IReadmeFile readmeFile;
 
-        public Facade(ILinkDetector linkDetector, IEnumerable<ILinkRule> validationRules, IReadmeFile readmeFile)
+        public LinkVerifierService(ILinkDetector linkDetector, IEnumerable<ILinkRule> validationRules, IReadmeFile readmeFile)
         {
             this.linkDetector = linkDetector;
             this.validationRules = validationRules;

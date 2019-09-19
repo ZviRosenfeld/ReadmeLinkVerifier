@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReadmeLinkVerifier.Interfaces;
+using ReadmeLinkVerifier.Services;
 using ReadmeLinkVerifier.UnitTests.Utils;
 
 namespace ReadmeLinkVerifier.UnitTests
@@ -24,9 +24,9 @@ namespace ReadmeLinkVerifier.UnitTests
             var linkDetector = A.Fake<ILinkDetector>();
             var allLinks = CreateAllLinks(rule1, rule2);
             A.CallTo(() => linkDetector.DetectLinks(A<string[]>._)).Returns(allLinks);
-            var facade = new Facade(linkDetector, new []{rule1, rule2}, A.Fake<IReadmeFile>());
+            var linkVerifierService = new LinkVerifierService(linkDetector, new []{rule1, rule2}, A.Fake<IReadmeFile>());
 
-            var results = facade.VerifyLinks();
+            var results = linkVerifierService.VerifyLinks();
 
             AssertLinkWereClassifiedCorrectly(results);
             Assert.AreEqual(LinkLoop * 2, results.GoodLinks.Count(), "Didn't get enough good links");

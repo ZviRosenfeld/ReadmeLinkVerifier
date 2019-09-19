@@ -3,12 +3,13 @@ using System.Linq;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReadmeLinkVerifier.Interfaces;
+using ReadmeLinkVerifier.Services;
 using ReadmeLinkVerifier.UnitTests.Utils;
 
 namespace ReadmeLinkVerifier.UnitTests
 {
     [TestClass]
-    public class FacadeTests
+    public class VerifyLinksServiceTests
     {
         private readonly LinkDto goodLink = new LinkDto("link1", "good link", 1);
         private readonly LinkDto badLink = new LinkDto("link2", "bad link", 1);
@@ -16,7 +17,7 @@ namespace ReadmeLinkVerifier.UnitTests
         private readonly List<LinkDto> links;
         private readonly ILinkRule bassicRule = A.Fake<ILinkRule>();
 
-        public FacadeTests()
+        public VerifyLinksServiceTests()
         {
             links = new List<LinkDto> {goodLink, badLink, unknownLink};
             bassicRule.SetLinkTo(true, LinkStatus.Bad, badLink);
@@ -29,8 +30,8 @@ namespace ReadmeLinkVerifier.UnitTests
         {
             var links = new List<LinkDto> {unknownLink};
 
-            var facade = new Facade(links.CreateLinkDetector(), new List<ILinkRule> {bassicRule}, A.Fake<IReadmeFile>());
-            var result = facade.VerifyLinks();  
+            var linkVerifierService = new LinkVerifierService(links.CreateLinkDetector(), new List<ILinkRule> {bassicRule}, A.Fake<IReadmeFile>());
+            var result = linkVerifierService.VerifyLinks();  
             AssertLinkIsUnknown(result, unknownLink);
         }
 
@@ -39,8 +40,8 @@ namespace ReadmeLinkVerifier.UnitTests
         {
             var links = new List<LinkDto> {goodLink };
 
-            var facade = new Facade(links.CreateLinkDetector(), new List<ILinkRule> { bassicRule }, A.Fake<IReadmeFile>());
-            var result = facade.VerifyLinks();
+            var linkVerifierService = new LinkVerifierService(links.CreateLinkDetector(), new List<ILinkRule> { bassicRule }, A.Fake<IReadmeFile>());
+            var result = linkVerifierService.VerifyLinks();
             AssertLinkIsGood(result, goodLink);
         }
 
@@ -49,8 +50,8 @@ namespace ReadmeLinkVerifier.UnitTests
         {
             var links = new List<LinkDto> { badLink};
 
-            var facade = new Facade(links.CreateLinkDetector(), new List<ILinkRule> { bassicRule }, A.Fake<IReadmeFile>());
-            var result = facade.VerifyLinks( );
+            var linkVerifierService = new LinkVerifierService(links.CreateLinkDetector(), new List<ILinkRule> { bassicRule }, A.Fake<IReadmeFile>());
+            var result = linkVerifierService.VerifyLinks( );
             AssertLinkIsBad(result, badLink);
         }
 
@@ -62,8 +63,8 @@ namespace ReadmeLinkVerifier.UnitTests
             firstRule.SetLinkTo(true, LinkStatus.Bad, badLink);
             secondRule.SetLinkTo(true, LinkStatus.Good, goodLink);
 
-            var facade = new Facade(links.CreateLinkDetector(), new List<ILinkRule> { firstRule, secondRule }, A.Fake<IReadmeFile>());
-            var result = facade.VerifyLinks();
+            var linkVerifierService = new LinkVerifierService(links.CreateLinkDetector(), new List<ILinkRule> { firstRule, secondRule }, A.Fake<IReadmeFile>());
+            var result = linkVerifierService.VerifyLinks();
             AssertLinkIsBad(result, badLink);
             AssertLinkIsGood(result, goodLink);
             AssertLinkIsUnknown(result, unknownLink);
@@ -72,8 +73,8 @@ namespace ReadmeLinkVerifier.UnitTests
         [TestMethod]
         public void RuleWithGoodAndBadAndUnknownLink()
         {
-            var facade = new Facade(links.CreateLinkDetector(), new List<ILinkRule> { bassicRule }, A.Fake<IReadmeFile>());
-            var result = facade.VerifyLinks();
+            var linkVerifierService = new LinkVerifierService(links.CreateLinkDetector(), new List<ILinkRule> { bassicRule }, A.Fake<IReadmeFile>());
+            var result = linkVerifierService.VerifyLinks();
             AssertLinkIsBad(result, badLink);
             AssertLinkIsGood(result, goodLink);
             AssertLinkIsUnknown(result, unknownLink);
@@ -90,8 +91,8 @@ namespace ReadmeLinkVerifier.UnitTests
             firstRule.SetLinkTo(true, LinkStatus.Unknown, unknownLink);
             secondRule.SetLinkTo(true, LinkStatus.Good, unknownLink);
 
-            var facade = new Facade(unknownLink.CreateLinkDetector(), new List<ILinkRule> { firstRule, secondRule }, A.Fake<IReadmeFile>());
-            var result = facade.VerifyLinks();
+            var linkVerifierService = new LinkVerifierService(unknownLink.CreateLinkDetector(), new List<ILinkRule> { firstRule, secondRule }, A.Fake<IReadmeFile>());
+            var result = linkVerifierService.VerifyLinks();
             AssertLinkIsUnknown(result, unknownLink);
         }
 

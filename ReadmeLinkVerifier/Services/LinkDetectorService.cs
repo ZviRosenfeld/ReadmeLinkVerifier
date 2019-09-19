@@ -2,12 +2,12 @@
 using System.Text.RegularExpressions;
 using ReadmeLinkVerifier.Interfaces;
 
-namespace ReadmeLinkVerifier
+namespace ReadmeLinkVerifier.Services
 {
-    public class LinkDetector : ILinkDetector
+    public class LinkDetectorService : ILinkDetector
     {
         private const string textRegex = @"\[(?<text>.+?)\]";
-        private const string balancedParenthesesRegex = @"(((?<open>\()[^\(\)]*)+((?<-open>\))[^\)\(]*)+)*"; // A regex that will accept strings with banaced parentheses
+        private const string balancedParenthesesRegex = @"(((?<open>\()[^\(\)]*)+((?<-open>\))[^\)\(]*)+)*"; // A regex that will accept strings with parentheses parentheses
         private const string linkRegex = @"\(\s*(?<link>[^\(\)]*?" + balancedParenthesesRegex + @")\s*\)";
         private const string LinkRegexPattern = textRegex + linkRegex;
 
@@ -23,7 +23,7 @@ namespace ReadmeLinkVerifier
 
         private static void FindMatchesInLine(string line, int lineNumber, Dictionary<int, LinkDto> stringMatches)
         {
-            var matches = Regex.Matches(line, LinkRegexPattern);
+            var matches = Regex.Matches(line, (string) LinkRegexPattern);
             foreach (Match match in matches)
             {
                 var link = match.Groups["link"].ToString();

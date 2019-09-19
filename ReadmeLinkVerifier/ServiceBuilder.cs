@@ -2,14 +2,15 @@
 using System.IO;
 using ReadmeLinkVerifier.Interfaces;
 using ReadmeLinkVerifier.LinkRules;
+using ReadmeLinkVerifier.Services;
 
 namespace ReadmeLinkVerifier
 {
-    public static class DefaultFacadeInitializer
+    public static class ServiceBuilder
     {
         private const string README_DEFAILT_PATH = "README.md";
 
-        public static Facade GetFacade(string repositoryPath, string readmeRelativePath = null)
+        public static IVerifyLinksService GetVerifyLinksService(string repositoryPath, string readmeRelativePath = null)
         {
             var repository = new FileRepository(repositoryPath);
             readmeRelativePath = readmeRelativePath ?? README_DEFAILT_PATH;
@@ -23,7 +24,7 @@ namespace ReadmeLinkVerifier
             if (Utils.IsInternetConnected())
                 rules.Add(new InternetLinkRule());
 
-            return new Facade(new LinkDetector(), rules, readmeFile);
+            return new LinkVerifierService(new LinkDetectorService(), rules, readmeFile);
         }
     }
 }

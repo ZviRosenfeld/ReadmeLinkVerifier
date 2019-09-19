@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ReadmeLinkVerifier.Services;
 using ReadmeLinkVerifier.UnitTests.Utils;
 
 namespace ReadmeLinkVerifier.UnitTests
@@ -26,7 +27,7 @@ namespace ReadmeLinkVerifier.UnitTests
         public void OneLink_FindLink(string linkText, string link)
         {
             var fullText = $"SomeTextBefore[{linkText}]({link})SomeTextAfter";
-            var linkDetector = new LinkDetector();
+            var linkDetector = new LinkDetectorService();
             var links = linkDetector.DetectLinks(fullText);
 
             Assert.AreEqual(1, links.Count, "We should have found a single link. Found " + links.Count);
@@ -40,7 +41,7 @@ namespace ReadmeLinkVerifier.UnitTests
             string link1Text = "link1", link2Text = "link2";
             string link1 = "/link1", link2 = "#link2";
             var fullText = $"SomeTextBefore[{link1Text}]({link1})SomeTextAfter[{link2Text}]({link2})";
-            var linkDetector = new LinkDetector();
+            var linkDetector = new LinkDetectorService();
             var links = linkDetector.DetectLinks(fullText);
 
             Assert.IsTrue(links.Contains(new LinkDto(link1, link1Text, 1)), "Didn't find link1");
@@ -53,7 +54,7 @@ namespace ReadmeLinkVerifier.UnitTests
             string link = "link", linkText = "linkText";
             var line1 = $"SomeTextBefore[{linkText}]({link})SomeTextAfter";
             var line2 = $"SomeTextBefore[{linkText}]({link})SomeTextAfter";
-            var linkDetector = new LinkDetector();
+            var linkDetector = new LinkDetectorService();
             var links = linkDetector.DetectLinks(new []{line1, line2});
 
             Assert.AreEqual(1, links.Count, "We should have only found one link (with 2 lines)");
@@ -68,7 +69,7 @@ namespace ReadmeLinkVerifier.UnitTests
         public void FindRightLineNumber(int lineNumber)
         {
             string link = "[Text](Link)";
-            var linkDetector = new LinkDetector();
+            var linkDetector = new LinkDetectorService();
             var links = linkDetector.DetectLinks(AddLinkAtLine(lineNumber, link));
 
             Assert.AreEqual(lineNumber, links.First().Lines.First(), "Got wrong line number");
@@ -79,7 +80,7 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("(Hi)[#SomeLink]")]
         public void BadLink_DontFindAnything(string linkText)
         {
-            var linkDetector = new LinkDetector();
+            var linkDetector = new LinkDetectorService();
             var links = linkDetector.DetectLinks(linkText);
             Assert.AreEqual(0, links.Count, "We shouldn't have found anything; Link found: " + (links.Count > 0 ? links.First().ToString() : ""));
         }
@@ -91,7 +92,7 @@ namespace ReadmeLinkVerifier.UnitTests
         public void LinkWithParentheses_FindLink(string link, string textAfterLink)
         {
             var fullText = $"SomeTextBefore[Hi]({link}){textAfterLink}";
-            var linkDetector = new LinkDetector();
+            var linkDetector = new LinkDetectorService();
             var links = linkDetector.DetectLinks(fullText);
             
             Assert.AreEqual(link, links.First().Link, "Got wrong link");

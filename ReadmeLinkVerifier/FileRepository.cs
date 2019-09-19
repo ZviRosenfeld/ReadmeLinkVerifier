@@ -12,6 +12,9 @@ namespace ReadmeLinkVerifier
 
         public FileRepository(string repositoryPath)
         {
+            if (!Directory.Exists(repositoryPath))
+                throw new ApplicationException($"Directory {repositoryPath} doesn't exist ");
+
             this.repositoryPath = repositoryPath;
         }
 

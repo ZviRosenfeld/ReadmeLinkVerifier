@@ -12,7 +12,7 @@ namespace ReadmeLinkVerifier
         public ReadmeFile(string path, string relativePath)
         {
             if (!File.Exists(path))
-                throw new ApplicationException($"File {path} dons't exist ");
+                throw new ApplicationException($"File {path} doesn't exist ");
 
             this.path = path;
             this.relativePath =

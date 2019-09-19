@@ -18,8 +18,8 @@ namespace ReadmeLinkVerifier.IntegrationTests
         {
             var repositoryPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "..");
             repositoryPath = Path.GetFullPath(repositoryPath);
-            var facade = DefaultFacadeInitializer.GetFacade(repositoryPath, readmePath);
-            var result = facade.VerifyLinks();
+            var verifyLinksService = ServiceBuilder.GetVerifyLinksService(repositoryPath, readmePath);
+            var result = verifyLinksService.VerifyLinks();
 
             AssertLinkWereClassifiedCorrectly(result);
         }
