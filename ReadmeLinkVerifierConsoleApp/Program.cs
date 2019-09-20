@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CommandLine;
 using ReadmeLinkVerifier;
 
@@ -25,10 +26,14 @@ namespace ReadmeLinkVerifierConsoleApp
                 PrintResults(result.GoodLinks, nameof(result.GoodLinks));
                 PrintResults(result.UnknownLinks, nameof(result.UnknownLinks));
                 PrintResults(result.BadLinks, nameof(result.BadLinks));
+
+                if (result.BadLinks.Any())
+                    Environment.Exit(-2);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Oops: " + e.Message);
+                Environment.Exit(-1);
             }
         }
 
