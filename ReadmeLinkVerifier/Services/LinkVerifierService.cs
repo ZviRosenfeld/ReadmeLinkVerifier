@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using ReadmeLinkVerifier.Interfaces;
 using ReadmeLinkVerifier.LinkRules;
+using ReadmeLinkVerifier.ReadmeFiles;
 
 namespace ReadmeLinkVerifier.Services
 {
@@ -19,7 +20,7 @@ namespace ReadmeLinkVerifier.Services
             var repository = new FileRepository(repositoryPath);
             readmeRelativePath = readmeRelativePath ?? README_DEFAILT_PATH;
             var readmeFilePath = Path.Combine(repository.GetRepositoryPath(), readmeRelativePath);
-            readmeFile = new ReadmeFile(readmeFilePath, readmeRelativePath);
+            readmeFile = new CodeSampleRemoverReadmeFile(new ReadmeFile(readmeFilePath, readmeRelativePath));
             var rules = new List<ILinkRule>
             {
                 new RepositoryLinkRule(repository, readmeFile),
