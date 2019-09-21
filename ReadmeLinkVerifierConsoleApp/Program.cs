@@ -14,8 +14,6 @@ namespace ReadmeLinkVerifierConsoleApp
             Parser.Default.ParseArguments<Options>(args)
                 .WithNotParsed(e => Environment.Exit(-1))
                 .WithParsed(RunVerifyLinks);
-
-            Console.Read();
         }
 
         private static void RunVerifyLinks(Options options)
@@ -33,6 +31,9 @@ namespace ReadmeLinkVerifierConsoleApp
 
                 if (result.BadLinks.Any())
                     Environment.Exit(-2);
+
+                if (options.WaitBeforeExit)
+                    Console.ReadLine();
             }
             catch (Exception e)
             {

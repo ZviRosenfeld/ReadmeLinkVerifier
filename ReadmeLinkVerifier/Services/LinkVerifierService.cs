@@ -33,7 +33,8 @@ namespace ReadmeLinkVerifier.Services
 
         public Result VerifyLinks()
         {
-            var allLinks = linkDetector.DetectLinks(readmeFile.GetAllText().Split(new[] { Environment.NewLine }, StringSplitOptions.None));
+            var readmeLines = readmeFile.GetAllText().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var allLinks = linkDetector.DetectLinks(readmeLines);
             return ruleRunner.VerifyLinks(allLinks);
         }
     }
