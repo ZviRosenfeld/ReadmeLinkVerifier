@@ -18,7 +18,7 @@ namespace ReadmeLinkVerifier.IntegrationTests
         {
             var repositoryPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "..");
             repositoryPath = Path.GetFullPath(repositoryPath);
-            var verifyLinksService = ServiceBuilder.GetVerifyLinksService(repositoryPath, readmePath);
+            var verifyLinksService = LinkVerifierService.GetVerifyLinksService(repositoryPath, readmePath);
             var result = verifyLinksService.VerifyLinks();
 
             AssertLinkWereClassifiedCorrectly(result);

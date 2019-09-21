@@ -6,7 +6,7 @@ using ReadmeLinkVerifier.Interfaces;
 
 namespace ReadmeLinkVerifier.Services
 {
-    public class RuleRunnerService : IVerifyLinksService
+    public class RuleRunnerService : IRuleRunnerService
     {
         private readonly ILinkDetector linkDetector;
         private readonly IEnumerable<ILinkRule> validationRules;

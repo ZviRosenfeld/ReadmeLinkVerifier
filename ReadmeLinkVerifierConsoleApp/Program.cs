@@ -21,7 +21,7 @@ namespace ReadmeLinkVerifierConsoleApp
         {
             try
             {
-                var verifyLinksService = ServiceBuilder.GetVerifyLinksService(options.RepositoryPath, options.ReadmePath);
+                var verifyLinksService = LinkVerifierService.GetVerifyLinksService(options.RepositoryPath, options.ReadmePath);
                 var result = verifyLinksService.VerifyLinks();
                 if (!options.OnlyPrintBadLinks)
                 {

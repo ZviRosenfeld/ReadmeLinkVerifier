@@ -6,7 +6,7 @@ using ReadmeLinkVerifier.Services;
 
 namespace ReadmeLinkVerifier
 {
-    public static class ServiceBuilder
+    public static class LinkVerifierService
     {
         private const string README_DEFAILT_PATH = "README.md";
 
