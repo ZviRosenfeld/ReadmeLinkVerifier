@@ -9,11 +9,11 @@ namespace ReadmeLinkVerifier.LinkRules
     /// </summary>
     public class ReadmeFileLinkRules : ILinkRule
     {
-        private readonly IReadmeFile readmeFile;
+        private readonly string readmeText;
 
-        public ReadmeFileLinkRules(IReadmeFile readmeFile)
+        public ReadmeFileLinkRules(string readmeText)
         {
-            this.readmeFile = readmeFile;
+            this.readmeText = readmeText.ToLower();
         }
 
         public LinkStatus IsLinkValid(LinkDto link)
@@ -24,7 +24,7 @@ namespace ReadmeLinkVerifier.LinkRules
             var expectedHeader = link.Link.Substring(1).Trim().ToLower();
             expectedHeader = expectedHeader.Replace("-", "[ -]");
             var linkRegexPattern = $"^( )*##?#?( )\\s*{expectedHeader}\\s*$";
-            return readmeFile.GetAllLines().Any(line => Regex.IsMatch(line.ToLower(), linkRegexPattern))
+            return Regex.IsMatch(readmeText, linkRegexPattern, RegexOptions.Multiline)
                 ? LinkStatus.Good
                 : LinkStatus.Bad;
         }

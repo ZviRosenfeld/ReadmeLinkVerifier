@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ReadmeLinkVerifier.Interfaces;
 using ReadmeLinkVerifier.LinkRules;
@@ -22,7 +23,7 @@ namespace ReadmeLinkVerifier.Services
             var rules = new List<ILinkRule>
             {
                 new RepositoryLinkRule(repository, readmeFile),
-                new ReadmeFileLinkRules(readmeFile)
+                new ReadmeFileLinkRules(readmeFile.GetAllText())
             };
             if (Utils.IsInternetConnected())
                 rules.Add(new InternetLinkRule());
@@ -32,7 +33,7 @@ namespace ReadmeLinkVerifier.Services
 
         public Result VerifyLinks()
         {
-            var allLinks = linkDetector.DetectLinks(readmeFile.GetAllLines());
+            var allLinks = linkDetector.DetectLinks(readmeFile.GetAllText().Split(new[] { Environment.NewLine }, StringSplitOptions.None));
             return ruleRunner.VerifyLinks(allLinks);
         }
     }

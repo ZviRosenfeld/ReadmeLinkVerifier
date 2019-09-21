@@ -19,11 +19,11 @@ namespace ReadmeLinkVerifier
                 Path.GetDirectoryName(relativePath.StartsWith("\\") ? relativePath.Substring(1) : relativePath);
         }
 
-        private string[] text;
-        public string[] GetAllLines()
+        private string text;
+        public string GetAllText()
         {
             if (text == null)
-                text = File.ReadAllLines(path);
+                text = File.ReadAllText(path);
 
             return text;
         }

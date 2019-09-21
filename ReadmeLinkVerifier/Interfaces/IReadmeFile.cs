@@ -5,7 +5,7 @@
     /// </summary>
     public interface IReadmeFile
     {
-        string[] GetAllLines();
+        string GetAllText();
 
         string GetRelativePath();
     }
