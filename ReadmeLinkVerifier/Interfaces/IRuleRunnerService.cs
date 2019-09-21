@@ -1,6 +1,6 @@
 ﻿namespace ReadmeLinkVerifier.Interfaces
 {
-    public interface IVerifyLinksService
+    public interface IRuleRunnerService
     {
         Result VerifyLinks();
     }

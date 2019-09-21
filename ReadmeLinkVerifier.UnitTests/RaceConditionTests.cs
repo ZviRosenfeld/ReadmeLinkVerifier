@@ -24,7 +24,7 @@ namespace ReadmeLinkVerifier.UnitTests
             var linkDetector = A.Fake<ILinkDetector>();
             var allLinks = CreateAllLinks(rule1, rule2);
             A.CallTo(() => linkDetector.DetectLinks(A<string[]>._)).Returns(allLinks);
-            var linkVerifierService = new LinkVerifierService(linkDetector, new []{rule1, rule2}, A.Fake<IReadmeFile>());
+            var linkVerifierService = new RuleRunnerService(linkDetector, new []{rule1, rule2}, A.Fake<IReadmeFile>());
 
             var results = linkVerifierService.VerifyLinks();
 

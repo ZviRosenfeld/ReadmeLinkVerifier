@@ -10,7 +10,7 @@ namespace ReadmeLinkVerifier
     {
         private const string README_DEFAILT_PATH = "README.md";
 
-        public static IVerifyLinksService GetVerifyLinksService(string repositoryPath, string readmeRelativePath = null)
+        public static IRuleRunnerService GetVerifyLinksService(string repositoryPath, string readmeRelativePath = null)
         {
             var repository = new FileRepository(repositoryPath);
             readmeRelativePath = readmeRelativePath ?? README_DEFAILT_PATH;
@@ -24,7 +24,7 @@ namespace ReadmeLinkVerifier
             if (Utils.IsInternetConnected())
                 rules.Add(new InternetLinkRule());
 
-            return new LinkVerifierService(new LinkDetectorService(), rules, readmeFile);
+            return new RuleRunnerService(new LinkDetectorService(), rules, readmeFile);
         }
     }
 }

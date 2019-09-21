@@ -6,13 +6,13 @@ using ReadmeLinkVerifier.Interfaces;
 
 namespace ReadmeLinkVerifier.Services
 {
-    public class LinkVerifierService : IVerifyLinksService
+    public class RuleRunnerService : IVerifyLinksService
     {
         private readonly ILinkDetector linkDetector;
         private readonly IEnumerable<ILinkRule> validationRules;
         private readonly IReadmeFile readmeFile;
 
-        public LinkVerifierService(ILinkDetector linkDetector, IEnumerable<ILinkRule> validationRules, IReadmeFile readmeFile)
+        public RuleRunnerService(ILinkDetector linkDetector, IEnumerable<ILinkRule> validationRules, IReadmeFile readmeFile)
         {
             this.linkDetector = linkDetector;
             this.validationRules = validationRules;
