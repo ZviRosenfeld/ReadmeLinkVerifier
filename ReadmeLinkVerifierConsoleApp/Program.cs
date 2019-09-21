@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
 using ReadmeLinkVerifier;
+using ReadmeLinkVerifier.Services;
 
 namespace ReadmeLinkVerifierConsoleApp
 {
@@ -21,7 +22,7 @@ namespace ReadmeLinkVerifierConsoleApp
         {
             try
             {
-                var verifyLinksService = LinkVerifierService.GetVerifyLinksService(options.RepositoryPath, options.ReadmePath);
+                var verifyLinksService = new LinkVerifierService(options.RepositoryPath, options.ReadmePath);
                 var result = verifyLinksService.VerifyLinks();
                 if (!options.OnlyPrintBadLinks)
                 {

@@ -1,5 +1,6 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ReadmeLinkVerifier.Services;
 
 namespace ReadmeLinkVerifier.IntegrationTests
 {
@@ -18,7 +19,7 @@ namespace ReadmeLinkVerifier.IntegrationTests
         {
             var repositoryPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "..");
             repositoryPath = Path.GetFullPath(repositoryPath);
-            var verifyLinksService = LinkVerifierService.GetVerifyLinksService(repositoryPath, readmePath);
+            var verifyLinksService = new LinkVerifierService(repositoryPath, readmePath);
             var result = verifyLinksService.VerifyLinks();
 
             AssertLinkWereClassifiedCorrectly(result);

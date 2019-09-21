@@ -6,32 +6,21 @@ using ReadmeLinkVerifier.Interfaces;
 
 namespace ReadmeLinkVerifier.Services
 {
-    public class RuleRunnerService : IRuleRunnerService
+    public class RuleRunner : IRuleRunnerService
     {
-        private readonly ILinkDetector linkDetector;
         private readonly IEnumerable<ILinkRule> validationRules;
-        private readonly IReadmeFile readmeFile;
 
-        public RuleRunnerService(ILinkDetector linkDetector, IEnumerable<ILinkRule> validationRules, IReadmeFile readmeFile)
+        public RuleRunner(IEnumerable<ILinkRule> validationRules)
         {
-            this.linkDetector = linkDetector;
             this.validationRules = validationRules;
-            this.readmeFile = readmeFile;
         }
-
-        public Result VerifyLinks()
-        {
-            
-            var allLinks = linkDetector.DetectLinks(readmeFile.GetAllLines());
-            return ValidateLinks(allLinks.ToList());
-        }
-
-        private Result ValidateLinks(List<LinkDto> allLinks)
+        
+        public Result VerifyLinks(IEnumerable<LinkDto> links)
         {
             var unknownLinks = new ConcurrentBag<LinkDto>();
             var goodLinks = new ConcurrentBag<LinkDto>();
             var badLinks = new ConcurrentBag<LinkDto>();
-            Parallel.ForEach(allLinks, link =>
+            Parallel.ForEach(links, link =>
             {
                 var resolvedLink = false;
                 foreach (var validationRule in validationRules)
