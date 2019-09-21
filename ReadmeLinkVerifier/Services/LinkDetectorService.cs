@@ -23,7 +23,7 @@ namespace ReadmeLinkVerifier.Services
 
         private static void FindMatchesInLine(string line, int lineNumber, Dictionary<int, LinkDto> stringMatches)
         {
-            var matches = Regex.Matches(line, (string) LinkRegexPattern);
+            var matches = Regex.Matches(line, LinkRegexPattern);
             foreach (Match match in matches)
             {
                 var link = match.Groups["link"].ToString();
