@@ -12,8 +12,6 @@ namespace ReadmeLinkVerifierConsoleApp
 
         [Option('e', Required = false, HelpText = "Only print bad links")]
         public bool OnlyPrintBadLinks { get; set; }
-
-        [Option('w', Required = false, HelpText = "Will wait for the user to input something before exiting")]
-        public bool WaitBeforeExit { get; set; }
+        
     }
 }

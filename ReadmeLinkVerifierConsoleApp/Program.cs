@@ -31,9 +31,6 @@ namespace ReadmeLinkVerifierConsoleApp
 
                 if (result.BadLinks.Any())
                     Environment.Exit(-2);
-
-                if (options.WaitBeforeExit)
-                    Console.ReadLine();
             }
             catch (Exception e)
             {
