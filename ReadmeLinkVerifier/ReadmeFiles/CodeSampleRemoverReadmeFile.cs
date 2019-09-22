@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Text;
 using ReadmeLinkVerifier.Interfaces;
 
@@ -50,6 +51,12 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                             collectedForOpen++;
                             break;
                         case Mode.IgnoreText:
+                            if (StartsAtBeginingOfLine(i - 1, text))
+                            {
+                                collectedForClose = 1;
+                                mode = Mode.Closing;
+                            }
+                            break;
                         case Mode.TentativeIgnoreText:
                             collectedForClose = 1;
                             mode = Mode.Closing;
@@ -66,8 +73,18 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                         case Mode.Normal:
                             stringBuilder.Append(c);
                             break;
+                        case Mode.TentativeIgnoreText:
+                            if (collectedForOpen >= 3 && c == '\n')
+                            {
+                                AddAllText(stringBuilder, ignoreSince, i - collectedForClose, text);
+                                stringBuilder.Append(c);
+                                mode = Mode.Normal;
+                            }
+                            break;
                         case Mode.Opening:
-                            mode = collectedForOpen >= 3 ? Mode.IgnoreText : Mode.TentativeIgnoreText;
+                            mode = collectedForOpen >= 3 && StartsAtBeginingOfLine(i - collectedForOpen - 1, text)
+                                ? Mode.IgnoreText
+                                : Mode.TentativeIgnoreText;
                             ignoreSince = i - collectedForOpen;
                             break;
                         case Mode.Closing:
@@ -112,6 +129,19 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                 AddMissedNewLines(stringBuilder, ignoreSince, text.Length, text);
 
             return stringBuilder.ToString();
+        }
+
+        private bool StartsAtBeginingOfLine(int from, string fullText)
+        {
+            for (int i = from; i >= 0; i--)
+            {
+                if (fullText[i] == '\n')
+                    return true;
+                if (!char.IsWhiteSpace(fullText[i]))
+                    return false;
+            }
+
+            return true;
         }
 
         private void AddAllText(StringBuilder stringBuilder, int from, int to, string allText)

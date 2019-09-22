@@ -16,7 +16,10 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("```" + CodeSampleText + "```")]
         [DataRow("``` " + CodeSampleText + " ```")]
         [DataRow("```\n" + CodeSampleText + "\n```")]
-        [DataRow("```\n" + CodeSampleText + "```")]
+        [DataRow("  ```\n" + CodeSampleText + "\n```  ")]
+        [DataRow("\t```\n" + CodeSampleText + "\n\t```\t")]
+        [DataRow("`\n" + CodeSampleText + "`")]
+        [DataRow("``` s ```" + CodeSampleText)]
         [DataRow("````" + CodeSampleText + "````")]
         [DataRow("```" + CodeSampleText + "````")]
         [DataRow("```" + CodeSampleText + "`````")]
@@ -39,7 +42,8 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("`" + CodeSampleText)]
         [DataRow("``" + CodeSampleText)]
         [DataRow("\\`" + CodeSampleText + "\\`")]
-        [DataRow("``` Sample ````" + CodeSampleText + "````")]
+        [DataRow("``` Sample \n````\n" + CodeSampleText + "\n````")]
+        [DataRow("d```\n" + CodeSampleText + "\n```")]
         [DataRow("` `` `" + CodeSampleText)]
         public void NotCodeSamples_DontIgnore(string codeSample)
         {
