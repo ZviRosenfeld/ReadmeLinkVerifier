@@ -89,7 +89,9 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                                 }
                                 else
                                 {
-                                    AddAllText(stringBuilder, ignoreSince, i, text);
+                                    AddAllText(stringBuilder, ignoreSince, i - collectedForClose, text);
+                                    ignoreSince = i - collectedForClose;
+                                    collectedForOpen = collectedForClose;
                                     mode = Mode.IgnoreText;
                                 }
                             }
