@@ -29,10 +29,14 @@ This Readme file is used for integration tests.
 - [Good](#two-words2)
 - [Good](#two-words2)
 - [Good](#real1)
+- [Good](#real2)
 - [Bad](#BassicHeader)
 - [Bad](#two)
 - [Bad](#fake1)
 - [Bad](#fake2)
+- [Bad](#fake3)
+- [Bad](#fake4)
+`[ShouldBeIgnored](#real1)`
 
 # Test Readme Headers
 # BassicHeader
@@ -43,3 +47,15 @@ This Readme file is used for integration tests.
 f # Fake1
 	 # Fake2
  #    Real1   
+ 
+ \`
+ # Real2
+ \`
+ 
+ ```
+ # Fake3
+ ```
+ 
+ `
+ # Fake4
+ `
