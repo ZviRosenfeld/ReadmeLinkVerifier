@@ -23,7 +23,8 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("```" + CodeSampleText)]
         [DataRow("``` SampleStart ``" + CodeSampleText)]
         [DataRow("```` SampleStart ```" + CodeSampleText)]
-        [DataRow("` NotSample ``" + CodeSampleText + "``")]
+        [DataRow("` `` `` " + CodeSampleText + "`")]
+        //[DataRow("` NotSample ``" + CodeSampleText + "``")]
         [DataRow("` ``` `" + CodeSampleText)]
         public void IgnoreCodeSamples(string codeSample)
         {
