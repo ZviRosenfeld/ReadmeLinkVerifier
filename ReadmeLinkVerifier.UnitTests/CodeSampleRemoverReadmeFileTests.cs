@@ -51,7 +51,7 @@ namespace ReadmeLinkVerifier.UnitTests
         [TestMethod]
         public void TwoCodeSamples_IgnoreBoth()
         {
-            var NotCodeSampleText = "NotCodeSample";
+            var NotCodeSampleText = "Not_Code_Sample";
             var readmeFile = new CodeSampleRemoverReadmeFile(new StringReadmeFile("", $"``` {CodeSampleText} ``` {NotCodeSampleText} ``` {CodeSampleText} ```"));
             var text = readmeFile.GetAllText();
             Assert.IsFalse(text.Contains(CodeSampleText), "Text shouldn't have contained the code samples. Text = " + text);
