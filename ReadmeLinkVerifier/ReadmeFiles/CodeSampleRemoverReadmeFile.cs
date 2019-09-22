@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using ReadmeLinkVerifier.Interfaces;
 
 namespace ReadmeLinkVerifier.ReadmeFiles
@@ -32,7 +33,7 @@ namespace ReadmeLinkVerifier.ReadmeFiles
 
             var collectedForOpen = 0; // The ` we've collected while opening the codeSample
             var collectedForClose = 0; // The ` we've collected while closing the codeSample 
-            var tentativeIgnoreSince = 0;
+            var ignoreSince = 0;
             var mode = Mode.Normal;
             for (int i = 0; i < text.Length; i++)
             {
@@ -67,12 +68,13 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                             break;
                         case Mode.Opening:
                             mode = collectedForOpen >= 3 ? Mode.IgnoreText : Mode.TentativeIgnoreText;
-                            tentativeIgnoreSince = i - collectedForOpen;
+                            ignoreSince = i - collectedForOpen;
                             break;
                         case Mode.Closing:
                             if (collectedForOpen == collectedForClose)
                             {
                                 mode = Mode.Normal;
+                                AddMissedNewLines(stringBuilder, ignoreSince, i, text);
                                 stringBuilder.Append(c);
                             }
                             else if (collectedForOpen < collectedForClose)
@@ -82,11 +84,12 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                                 else if (collectedForOpen >= 3 && collectedForClose >= 3)
                                 {
                                     mode = Mode.Normal;
+                                    AddMissedNewLines(stringBuilder, ignoreSince, i, text);
                                     stringBuilder.Append(c);
                                 }
                                 else
                                 {
-                                    AddAllText(stringBuilder, tentativeIgnoreSince, i, text);
+                                    AddAllText(stringBuilder, ignoreSince, i, text);
                                     mode = Mode.IgnoreText;
                                 }
                             }
@@ -102,7 +105,9 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                 }
             }
             if (mode == Mode.TentativeIgnoreText)
-                AddAllText(stringBuilder, tentativeIgnoreSince, text.Length, text);
+                AddAllText(stringBuilder, ignoreSince, text.Length, text);
+            if (mode == Mode.IgnoreText)
+                AddMissedNewLines(stringBuilder, ignoreSince, text.Length, text);
 
             return stringBuilder.ToString();
         }
@@ -110,7 +115,14 @@ namespace ReadmeLinkVerifier.ReadmeFiles
         private void AddAllText(StringBuilder stringBuilder, int from, int to, string allText)
         {
             for (int i = from; i < to; i++)
-                stringBuilder.Append(text[i]);
+                stringBuilder.Append(allText[i]);
+        }
+
+        private void AddMissedNewLines(StringBuilder stringBuilder, int from, int to, string allText)
+        {
+            for (int i = from; i < to; i++)
+                if (allText[i] == '\n')
+                    stringBuilder.Append(Environment.NewLine);
         }
     }
 

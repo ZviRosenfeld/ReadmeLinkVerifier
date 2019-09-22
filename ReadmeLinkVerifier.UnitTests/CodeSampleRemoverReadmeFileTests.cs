@@ -59,11 +59,15 @@ namespace ReadmeLinkVerifier.UnitTests
         }
 
         [TestMethod]
-        public void CodeSampleContainsNewLines_NewLinesNotLost()
+        [DataRow(" Before```\nSample\n``` After", 4)]
+        [DataRow(" Before`\nSample\n` After", 4)]
+        [DataRow(" Before```\nSample\n```", 4)]
+        public void CodeSampleContainsNewLines_NewLinesNotLost(string readmeText, int expectedLines)
         {
-            var readmeFile = new CodeSampleRemoverReadmeFile(new StringReadmeFile("", $" Before``` {Environment.NewLine} Sample {Environment.NewLine} ``` After"));
+            var readmeFile = new CodeSampleRemoverReadmeFile(new StringReadmeFile("", readmeText));
             var text = readmeFile.GetAllText();
-            Assert.AreEqual(4, text.Split(new[] { Environment.NewLine }, StringSplitOptions.None), "NewLines lost");
+            var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            Assert.AreEqual(expectedLines, lines.Length, "NewLines lost");
         }
     }
 }
