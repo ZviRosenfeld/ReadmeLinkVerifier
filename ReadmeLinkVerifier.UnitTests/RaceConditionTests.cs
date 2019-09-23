@@ -21,12 +21,10 @@ namespace ReadmeLinkVerifier.UnitTests
         {
             var rule1 = A.Fake<ILinkRule>();
             var rule2 = A.Fake<ILinkRule>();
-            var linkDetector = A.Fake<ILinkDetector>();
             var allLinks = CreateAllLinks(rule1, rule2);
-            A.CallTo(() => linkDetector.DetectLinks(A<string[]>._)).Returns(allLinks);
-            var linkVerifierService = new LinkVerifierService(linkDetector, new []{rule1, rule2}, A.Fake<IReadmeFile>());
+            var linkVerifierService = new RuleRunner(new []{rule1, rule2});
 
-            var results = linkVerifierService.VerifyLinks();
+            var results = linkVerifierService.VerifyLinks(allLinks);
 
             AssertLinkWereClassifiedCorrectly(results);
             Assert.AreEqual(LinkLoop * 2, results.GoodLinks.Count(), "Didn't get enough good links");

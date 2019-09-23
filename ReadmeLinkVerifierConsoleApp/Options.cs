@@ -12,5 +12,6 @@ namespace ReadmeLinkVerifierConsoleApp
 
         [Option('e', Required = false, HelpText = "Only print bad links")]
         public bool OnlyPrintBadLinks { get; set; }
+        
     }
 }

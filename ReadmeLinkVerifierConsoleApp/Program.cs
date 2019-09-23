@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
 using ReadmeLinkVerifier;
+using ReadmeLinkVerifier.Services;
 
 namespace ReadmeLinkVerifierConsoleApp
 {
@@ -13,15 +14,13 @@ namespace ReadmeLinkVerifierConsoleApp
             Parser.Default.ParseArguments<Options>(args)
                 .WithNotParsed(e => Environment.Exit(-1))
                 .WithParsed(RunVerifyLinks);
-
-            Console.Read();
         }
 
         private static void RunVerifyLinks(Options options)
         {
             try
             {
-                var verifyLinksService = ServiceBuilder.GetVerifyLinksService(options.RepositoryPath, options.ReadmePath);
+                var verifyLinksService = new LinkVerifierService(options.RepositoryPath, options.ReadmePath);
                 var result = verifyLinksService.VerifyLinks();
                 if (!options.OnlyPrintBadLinks)
                 {

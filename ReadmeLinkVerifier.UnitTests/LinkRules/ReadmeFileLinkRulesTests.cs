@@ -1,6 +1,4 @@
-﻿using FakeItEasy;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ReadmeLinkVerifier.Interfaces;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReadmeLinkVerifier.LinkRules;
 using ReadmeLinkVerifier.UnitTests.Utils;
 
@@ -15,7 +13,7 @@ namespace ReadmeLinkVerifier.UnitTests.LinkRules
         public void IsRuleApplicable_RuleNotApplicable(string link)
         {
             var linkDto = new LinkDto(link, "Hey", 1);
-            var rule = new ReadmeFileLinkRules(A.Fake<IReadmeFile>());
+            var rule = new ReadmeFileLinkRules("");
             Assert.IsFalse(rule.IsRuleApplicable(linkDto), "Link should not have been relevant");
         }
 
@@ -25,7 +23,7 @@ namespace ReadmeLinkVerifier.UnitTests.LinkRules
         public void IsRuleApplicable_RuleApplicable(string link)
         {
             var linkDto = new LinkDto(link, "Hey", 1);
-            var rule = new ReadmeFileLinkRules(A.Fake<IReadmeFile>());
+            var rule = new ReadmeFileLinkRules("");
             Assert.IsTrue(rule.IsRuleApplicable(linkDto), "Link should have been relevant");
         }
 
@@ -45,7 +43,7 @@ namespace ReadmeLinkVerifier.UnitTests.LinkRules
         {
             var linkDto = new LinkDto(link, "Hey", 1);
             var readmeFile = new StringReadmeFile("SomeText", header, "SomeText");
-            var rule = new ReadmeFileLinkRules(readmeFile);
+            var rule = new ReadmeFileLinkRules(readmeFile.GetAllText());
             Assert.AreEqual(LinkStatus.Good, rule.IsLinkValid(linkDto), "Link should have been valid");
         }
 
@@ -64,7 +62,7 @@ namespace ReadmeLinkVerifier.UnitTests.LinkRules
         {
             var linkDto = new LinkDto(link, "Hey", 1);
             var readmeFile = new StringReadmeFile("SomeText", header, "SomeText");
-            var rule = new ReadmeFileLinkRules(readmeFile);
+            var rule = new ReadmeFileLinkRules(readmeFile.GetAllText());
             Assert.AreEqual(LinkStatus.Bad, rule.IsLinkValid(linkDto), "Link should not have been valid");
         }
     }

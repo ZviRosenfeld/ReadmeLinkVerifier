@@ -2,7 +2,7 @@
 using System.IO;
 using ReadmeLinkVerifier.Interfaces;
 
-namespace ReadmeLinkVerifier
+namespace ReadmeLinkVerifier.ReadmeFiles
 {
     public class ReadmeFile : IReadmeFile
     {
@@ -18,15 +18,8 @@ namespace ReadmeLinkVerifier
             this.relativePath =
                 Path.GetDirectoryName(relativePath.StartsWith("\\") ? relativePath.Substring(1) : relativePath);
         }
-
-        private string[] text;
-        public string[] GetAllLines()
-        {
-            if (text == null)
-                text = File.ReadAllLines(path);
-
-            return text;
-        }
+        
+        public string GetAllText() => File.ReadAllText(path);
 
         public string GetRelativePath() => relativePath;
     }

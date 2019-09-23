@@ -1,64 +1,42 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using ReadmeLinkVerifier.Interfaces;
+using ReadmeLinkVerifier.LinkRules;
+using ReadmeLinkVerifier.ReadmeFiles;
 
 namespace ReadmeLinkVerifier.Services
 {
-    public class LinkVerifierService : IVerifyLinksService
+    public class LinkVerifierService
     {
-        private readonly ILinkDetector linkDetector;
-        private readonly IEnumerable<ILinkRule> validationRules;
-        private readonly IReadmeFile readmeFile;
+        private const string README_DEFAILT_PATH = "README.md";
 
-        public LinkVerifierService(ILinkDetector linkDetector, IEnumerable<ILinkRule> validationRules, IReadmeFile readmeFile)
+        private IReadmeFile readmeFile;
+        private ILinkDetector linkDetector = new LinkDetectorService();
+        private IRuleRunnerService ruleRunner;
+
+        public LinkVerifierService(string repositoryPath, string readmeRelativePath = null)
         {
-            this.linkDetector = linkDetector;
-            this.validationRules = validationRules;
-            this.readmeFile = readmeFile;
+            var repository = new FileRepository(repositoryPath);
+            readmeRelativePath = readmeRelativePath ?? README_DEFAILT_PATH;
+            var readmeFilePath = Path.Combine(repository.GetRepositoryPath(), readmeRelativePath);
+            readmeFile = new CodeSampleRemoverReadmeFile(new ReadmeFile(readmeFilePath, readmeRelativePath));
+            var rules = new List<ILinkRule>
+            {
+                new RepositoryLinkRule(repository, readmeFile),
+                new ReadmeFileLinkRules(readmeFile.GetAllText())
+            };
+            if (Utils.IsInternetConnected())
+                rules.Add(new InternetLinkRule());
+            
+            ruleRunner = new RuleRunner(rules);
         }
 
         public Result VerifyLinks()
         {
-            
-            var allLinks = linkDetector.DetectLinks(readmeFile.GetAllLines());
-            return ValidateLinks(allLinks.ToList());
-        }
-
-        private Result ValidateLinks(List<LinkDto> allLinks)
-        {
-            var unknownLinks = new ConcurrentBag<LinkDto>();
-            var goodLinks = new ConcurrentBag<LinkDto>();
-            var badLinks = new ConcurrentBag<LinkDto>();
-            Parallel.ForEach(allLinks, link =>
-            {
-                var resolvedLink = false;
-                foreach (var validationRule in validationRules)
-                {
-                    if (resolvedLink) break;
-                    if (!validationRule.IsRuleApplicable(link)) continue;
-
-                    resolvedLink = true;
-                    switch (validationRule.IsLinkValid(link))
-                    {
-                        case LinkStatus.Good:
-                            goodLinks.Add(link);
-                            break;
-                        case LinkStatus.Bad:
-                            badLinks.Add(link);
-                            break;
-                        default:
-                            unknownLinks.Add(link);
-                            break;
-                    }
-                }
-
-                if (!resolvedLink)
-                    unknownLinks.Add(link);
-            });
-            
-            return new Result(goodLinks, badLinks, unknownLinks);
+            var readmeLines = readmeFile.GetAllText().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var allLinks = linkDetector.DetectLinks(readmeLines);
+            return ruleRunner.VerifyLinks(allLinks);
         }
     }
 }
