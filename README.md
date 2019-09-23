@@ -14,13 +14,13 @@ The tool is written in dotnet core, so you'll need to verify that you have dotne
 To run, use the following command. (We'll verify the readme file at the repository root named README.md):
 
 ```
-dornet  ReadmeLinkVerifierConsoleApp.dll <RepositoryPath>
+dornet ReadmeLinkVerifierConsoleApp.dll <RepositoryPath>
 ```
 
 If you want to specify a different file, you can use the command:
 
 ```
-dornet  ReadmeLinkVerifierConsoleApp.dll -r <ReadmeFileRelativePath> <RepositoryPath>
+dornet ReadmeLinkVerifierConsoleApp.dll -r <ReadmeFileRelativePath> <RepositoryPath>
 ```
 
 The tool will exit with a -1 if something went wrong (normally, the parameters are wrong, or the repository or readme doesn't exist).
