@@ -19,7 +19,7 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("  ```\n" + CodeSampleText + "\n```  ")]
         [DataRow("\t```\n" + CodeSampleText + "\n\t```\t")]
         [DataRow("`\n" + CodeSampleText + "`")]
-        [DataRow("``` s ```" + CodeSampleText)]
+        [DataRow("```\n s ```" + CodeSampleText)]
         [DataRow("````" + CodeSampleText + "````")]
         [DataRow("```" + CodeSampleText + "````")]
         [DataRow("```" + CodeSampleText + "`````")]
