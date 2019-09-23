@@ -31,6 +31,7 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("` ``` `" + CodeSampleText)]
         public void IgnoreCodeSamples(string codeSample)
         {
+            codeSample = codeSample.Replace("\n", Environment.NewLine);
             var readmeFile = new CodeSampleRemoverReadmeFile(new StringReadmeFile("", codeSample));
             var text = readmeFile.GetAllText();
             Assert.IsFalse(text.Contains(CodeSampleText), "Text shouldn't have contained the code samples. Text = " + text);
@@ -42,11 +43,13 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("`" + CodeSampleText)]
         [DataRow("``" + CodeSampleText)]
         [DataRow("\\`" + CodeSampleText + "\\`")]
+        [DataRow("``` Sample ```" + CodeSampleText)]
         [DataRow("``` Sample \n````\n" + CodeSampleText + "\n````")]
         [DataRow("d```\n" + CodeSampleText + "\n```")]
         [DataRow("` `` `" + CodeSampleText)]
         public void NotCodeSamples_DontIgnore(string codeSample)
         {
+            codeSample = codeSample.Replace("\n", Environment.NewLine);
             var readmeFile = new CodeSampleRemoverReadmeFile(new StringReadmeFile("", codeSample));
             var text = readmeFile.GetAllText();
             Assert.IsTrue(text.Contains(CodeSampleText), "Text should have contained the false code samples. Text = " + text);
@@ -68,6 +71,7 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow(" Before```\nSample\n```", 4)]
         public void CodeSampleContainsNewLines_NewLinesNotLost(string readmeText, int expectedLines)
         {
+            readmeText = readmeText.Replace("\n", Environment.NewLine);
             var readmeFile = new CodeSampleRemoverReadmeFile(new StringReadmeFile("", readmeText));
             var text = readmeFile.GetAllText();
             var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);

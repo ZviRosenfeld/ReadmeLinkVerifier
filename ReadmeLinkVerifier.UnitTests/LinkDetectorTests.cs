@@ -34,7 +34,7 @@ namespace ReadmeLinkVerifier.UnitTests
             Assert.AreEqual(linkText, links.First().Text, "Got wrong link text");
             Assert.AreEqual(link.Trim(), links.First().Link, "Got wrong link");
         }
-
+        
         [TestMethod]
         public void TwoLinksOnSameLine_FindBoth()
         {
@@ -78,11 +78,26 @@ namespace ReadmeLinkVerifier.UnitTests
         [TestMethod]
         [DataRow("[Hi] (#SomeLink)")]
         [DataRow("(Hi)[#SomeLink]")]
+        [DataRow("\\[Hi](#SomeLink)")]
+        [DataRow("[Hi\\](#SomeLink)")]
+        [DataRow("[Hi](#SomeLink\\)")]
         public void BadLink_DontFindAnything(string linkText)
         {
             var linkDetector = new LinkDetectorService();
             var links = linkDetector.DetectLinks(linkText);
             Assert.AreEqual(0, links.Count, "We shouldn't have found anything; Link found: " + (links.Count > 0 ? links.First().ToString() : ""));
+        }
+
+        [TestMethod]
+        [DataRow("[Hi](#SomeLink)")]
+        [DataRow("[Hi](#SomeLink)tt")]
+        [DataRow("tt[Hi](#SomeLink)")]
+        [DataRow("[Hi](\\Some\\Link)")]
+        public void GoodLink_FindLink(string linkText)
+        {
+            var linkDetector = new LinkDetectorService();
+            var links = linkDetector.DetectLinks(linkText);
+            Assert.AreEqual(1, links.Count, "We should have found the link.");
         }
 
         [TestMethod]
