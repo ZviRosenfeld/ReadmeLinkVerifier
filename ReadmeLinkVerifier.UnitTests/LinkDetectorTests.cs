@@ -15,6 +15,7 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("Hi", "#SomeLink")]
         [DataRow("Hi", "#SomeLink ")]
         [DataRow("Hi", " #SomeLink")]
+        [DataRow("H\\i", " #SomeLink")]
         [DataRow("Hi2", "\\Number\\Vector")]
         [DataRow("Hi3", "NumberVector")]
         [DataRow("Hi Hi", "#SomeLink")]
@@ -80,7 +81,6 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("(Hi)[#SomeLink]")]
         [DataRow("\\[Hi](#SomeLink)")]
         [DataRow("[Hi\\](#SomeLink)")]
-        [DataRow("[Hi](#SomeLink\\)")]
         public void BadLink_DontFindAnything(string linkText)
         {
             var linkDetector = new LinkDetectorService();
