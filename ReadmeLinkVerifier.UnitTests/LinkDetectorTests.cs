@@ -10,11 +10,10 @@ namespace ReadmeLinkVerifier.UnitTests
     public class LinkDetectorTests
     {
         [TestMethod]
-        [DataRow("Hi", "some(link)")]
-        [DataRow("Hi", "some(li(n)k)")]
         [DataRow("Hi", "#SomeLink")]
         [DataRow("Hi", "#SomeLink ")]
         [DataRow("Hi", " #SomeLink")]
+        [DataRow("H\\i", " #SomeLink")]
         [DataRow("Hi2", "\\Number\\Vector")]
         [DataRow("Hi3", "NumberVector")]
         [DataRow("Hi Hi", "#SomeLink")]
@@ -24,6 +23,9 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("Hi", "\\SomeLink$.cs")]
         [DataRow("Hi","#Some Link")]
         [DataRow("Hi","\\Some\tLink")]
+        [DataRow("Hi", "some(link)")]
+        [DataRow("Hi", "some(li(n)k)")]
+        [DataRow("H\\]i", "#SomeLink")]
         public void OneLink_FindLink(string linkText, string link)
         {
             var fullText = $"SomeTextBefore[{linkText}]({link})SomeTextAfter";
@@ -34,7 +36,7 @@ namespace ReadmeLinkVerifier.UnitTests
             Assert.AreEqual(linkText, links.First().Text, "Got wrong link text");
             Assert.AreEqual(link.Trim(), links.First().Link, "Got wrong link");
         }
-
+        
         [TestMethod]
         public void TwoLinksOnSameLine_FindBoth()
         {
@@ -78,11 +80,28 @@ namespace ReadmeLinkVerifier.UnitTests
         [TestMethod]
         [DataRow("[Hi] (#SomeLink)")]
         [DataRow("(Hi)[#SomeLink]")]
+        [DataRow("\\[Hi](#SomeLink)")]
+        [DataRow("[Hi\\](#SomeLink)")]
+        [DataRow("[Hi\\\\\\](#SomeLink)")]
+        [DataRow("[H\\\\]i](#SomeLink)")]
         public void BadLink_DontFindAnything(string linkText)
         {
             var linkDetector = new LinkDetectorService();
             var links = linkDetector.DetectLinks(linkText);
             Assert.AreEqual(0, links.Count, "We shouldn't have found anything; Link found: " + (links.Count > 0 ? links.First().ToString() : ""));
+        }
+
+        [TestMethod]
+        [DataRow("[Hi](#SomeLink)")]
+        [DataRow("[Hi](#SomeLink)tt")]
+        [DataRow("tt[Hi](#SomeLink)")]
+        [DataRow("[Hi](\\Some\\Link)")]
+        [DataRow("[Hi\\\\](\\Some\\Link)")]
+        public void GoodLink_FindLink(string linkText)
+        {
+            var linkDetector = new LinkDetectorService();
+            var links = linkDetector.DetectLinks(linkText);
+            Assert.AreEqual(1, links.Count, "We should have found the link.");
         }
 
         [TestMethod]

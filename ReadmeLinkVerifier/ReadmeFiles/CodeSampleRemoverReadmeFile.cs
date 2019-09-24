@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Text;
 using ReadmeLinkVerifier.Interfaces;
 
@@ -51,7 +50,7 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                             collectedForOpen++;
                             break;
                         case Mode.IgnoreText:
-                            if (StartsAtBeginingOfLine(i - 1, text))
+                            if (StartsAtBeginingOfLine(i - 1, text) || IsOneLine(ignoreSince, i, text))
                             {
                                 collectedForClose = 1;
                                 mode = Mode.Closing;
@@ -141,6 +140,15 @@ namespace ReadmeLinkVerifier.ReadmeFiles
                     return false;
             }
 
+            return true;
+        }
+
+        private bool IsOneLine(int begining, int end, string fullText)
+        {
+            for (int i = begining; i < end; i++)
+                if (fullText[i] == '\n')
+                    return false;
+            
             return true;
         }
 
