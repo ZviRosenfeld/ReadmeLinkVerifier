@@ -10,8 +10,6 @@ namespace ReadmeLinkVerifier.UnitTests
     public class LinkDetectorTests
     {
         [TestMethod]
-        [DataRow("Hi", "some(link)")]
-        [DataRow("Hi", "some(li(n)k)")]
         [DataRow("Hi", "#SomeLink")]
         [DataRow("Hi", "#SomeLink ")]
         [DataRow("Hi", " #SomeLink")]
@@ -25,6 +23,9 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("Hi", "\\SomeLink$.cs")]
         [DataRow("Hi","#Some Link")]
         [DataRow("Hi","\\Some\tLink")]
+        [DataRow("Hi", "some(link)")]
+        [DataRow("Hi", "some(li(n)k)")]
+        [DataRow("H\\]i", "#SomeLink")]
         public void OneLink_FindLink(string linkText, string link)
         {
             var fullText = $"SomeTextBefore[{linkText}]({link})SomeTextAfter";
@@ -81,6 +82,8 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("(Hi)[#SomeLink]")]
         [DataRow("\\[Hi](#SomeLink)")]
         [DataRow("[Hi\\](#SomeLink)")]
+        [DataRow("[Hi\\\\\\](#SomeLink)")]
+        [DataRow("[H\\\\]i](#SomeLink)")]
         public void BadLink_DontFindAnything(string linkText)
         {
             var linkDetector = new LinkDetectorService();
@@ -93,6 +96,7 @@ namespace ReadmeLinkVerifier.UnitTests
         [DataRow("[Hi](#SomeLink)tt")]
         [DataRow("tt[Hi](#SomeLink)")]
         [DataRow("[Hi](\\Some\\Link)")]
+        [DataRow("[Hi\\\\](\\Some\\Link)")]
         public void GoodLink_FindLink(string linkText)
         {
             var linkDetector = new LinkDetectorService();
