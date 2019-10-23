@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadmeLinkVerifier", "Readm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadmeLinkVerifier.UnitTests", "ReadmeLinkVerifier.UnitTests\ReadmeLinkVerifier.UnitTests.csproj", "{7491BA2A-B52A-4549-BD4A-B3B7C44D84AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadmeLinkVerifier.IntegrationTests", "ReadmeLinkVerifier.IntegrationTests\ReadmeLinkVerifier.IntegrationTests.csproj", "{0787DB01-3C88-48AC-AB00-0CDEC052F416}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadmeLinkVerifier.IntegrationTests", "ReadmeLinkVerifier.IntegrationTests\ReadmeLinkVerifier.IntegrationTests.csproj", "{0787DB01-3C88-48AC-AB00-0CDEC052F416}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadmeLinkVerifierConsoleApp", "ReadmeLinkVerifierConsoleApp\ReadmeLinkVerifierConsoleApp.csproj", "{F62ACDE6-B6EB-4851-B24E-5F9BA7D9216F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadmeLinkVerifierTool", "ReadmeLinkVerifierTool\ReadmeLinkVerifierTool.csproj", "{BA173F71-1052-4922-B3B0-3E4AFD777C90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{0787DB01-3C88-48AC-AB00-0CDEC052F416}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0787DB01-3C88-48AC-AB00-0CDEC052F416}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0787DB01-3C88-48AC-AB00-0CDEC052F416}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F62ACDE6-B6EB-4851-B24E-5F9BA7D9216F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F62ACDE6-B6EB-4851-B24E-5F9BA7D9216F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F62ACDE6-B6EB-4851-B24E-5F9BA7D9216F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F62ACDE6-B6EB-4851-B24E-5F9BA7D9216F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA173F71-1052-4922-B3B0-3E4AFD777C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA173F71-1052-4922-B3B0-3E4AFD777C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA173F71-1052-4922-B3B0-3E4AFD777C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA173F71-1052-4922-B3B0-3E4AFD777C90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
